@@ -58,6 +58,7 @@ else
     private GeneratedContent generatedContent;
     private string feedback;
     private const string ContentFilePath = "..\\..\\..\\content.json";
+    private const string ApprovedContentHistoryFilePath = "..\\..\\..\\approved_content_history.json";
 
     protected override void OnInitialized()
     {
@@ -81,7 +82,19 @@ else
 
     private void ApproveContent()
     {
-        Console.WriteLine("Content approved!");
+        var approvedContentList = new List<GeneratedContent>();
+        if (File.Exists(ApprovedContentHistoryFilePath))
+        {
+            var json = File.ReadAllText(ApprovedContentHistoryFilePath);
+            approvedContentList = JsonSerializer.Deserialize<List<GeneratedContent>>(json);
+        }
+
+        approvedContentList.Add(generatedContent);
+
+        var updatedJson = JsonSerializer.Serialize(approvedContentList);
+        File.WriteAllText(ApprovedContentHistoryFilePath, updatedJson);
+
+        Console.WriteLine("Content approved and saved to history!");
     }
 
     private async Task RegenerateContent()

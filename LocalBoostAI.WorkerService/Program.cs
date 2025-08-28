@@ -15,6 +15,7 @@ builder.Services.AddSingleton(new PredictionServiceClientBuilder
 builder.Services.AddHttpClient(); // Register HttpClient
 
 builder.Services.AddTransient<IContentGenerationService, ContentGenerationService>();
+builder.Services.AddTransient<IEmailService, SendGridEmailService>();
 
 var host = builder.Build();
 host.Run();

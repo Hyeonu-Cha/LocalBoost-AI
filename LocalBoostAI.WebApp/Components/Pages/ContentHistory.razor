@@ -1,0 +1,58 @@
+
+@page "/content-history"
+@using LocalBoostAI.WebApp.Models
+@using System.Text.Json
+
+<h3>Content History</h3>
+
+@if (approvedContentList != null && approvedContentList.Any())
+{
+    @foreach (var content in approvedContentList)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                Blog Post
+            </div>
+            <div class="card-body">
+                <p>@content.BlogPost</p>
+            </div>
+        </div>
+
+        <div class="card mt-3 mb-3">
+            <div class="card-header">
+                Social Media Posts
+            </div>
+            <div class="card-body">
+                <ul>
+                    @foreach (var post in content.SocialMediaPosts)
+                    {
+                        <li>@post</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <hr />
+    }
+}
+else
+{
+    <p>No approved content found yet.</p>
+}
+
+@code {
+    private List<GeneratedContent> approvedContentList;
+    private const string ApprovedContentHistoryFilePath = "..\\..\\..\\approved_content_history.json";
+
+    protected override void OnInitialized()
+    {
+        if (File.Exists(ApprovedContentHistoryFilePath))
+        {
+            var json = File.ReadAllText(ApprovedContentHistoryFilePath);
+            approvedContentList = JsonSerializer.Deserialize<List<GeneratedContent>>(json);
+        }
+        else
+        {
+            approvedContentList = new List<GeneratedContent>();
+        }
+    }
+}

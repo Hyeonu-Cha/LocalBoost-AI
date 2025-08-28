@@ -47,13 +47,13 @@
               "target": "Package",
               "version": "[3.45.0, )"
             },
-            "Microsoft.Azure.CognitiveServices.Search.WebSearch": {
-              "target": "Package",
-              "version": "[2.0.0, )"
-            },
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
               "version": "[8.0.1, )"
+            },
+            "SendGrid": {
+              "target": "Package",
+              "version": "[9.29.3, )"
             }
           },
           "imports": [

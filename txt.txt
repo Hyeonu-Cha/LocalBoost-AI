@@ -1,0 +1,19 @@
+                                                                           │
+ │     8     "GoogleCloud": {                                                               │
+ │     9 -     "ProjectId": "Gemini API",                                                   │
+ │     9 +     "ProjectId": "YOUR_GOOGLE_CLOUD_PROJECT_ID",                                 │
+ │    10       "Location": "us-central1",                                                   │
+ │    11 -     "ModelId": "gemini-2.5-flash-lite"                                           │
+ │    11 +     "ModelId": "gemini-1.5-flash-001"                                            │
+ │    12     },                                                                             │
+ │    13     "GoogleCustomSearch": {                                                        │
+ │    14 -     "ApiKey": "AIzaSyDma9oMmQVg_UnHctZy-A0FZ6xXnUkdnWg",                         │
+ │    15 -     "SearchEngineId": "2013cd03e7a564a13"                                        │
+ │    14 +     "ApiKey": "YOUR_GOOGLE_CUSTOM_SEARCH_API_KEY",                               │
+ │    15 +     "SearchEngineId": "YOUR_GOOGLE_CUSTOM_SEARCH_ENGINE_ID"                      │
+ │    16 +   },                                                                             │
+ │    17 +   "SendGrid": {                                                                  │
+ │    18 +     "ApiKey": "YOUR_SENDGRID_API_KEY",                                           │
+ │    19 +     "SenderEmail": "your_sender_email@example.com"                               │
+ │    20     }                                                                              │
+ │  
