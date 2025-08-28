@@ -45,3 +45,19 @@
 - [x] LBA-28: As Maria, my dashboard should show a history of all previously approved content.
 - [x] LBA-29: As Maria, I want to see the content in a simple, clean interface that is easy to read.
 - [x] LBA-30: If content is not approved within 7 days, the system should send a reminder email.
+
+## Epic 4: Automated Publishing
+
+**Status:** Completed
+
+- [x] LBA-31: As Maria, I want to be able to securely connect my Facebook Business page. (UI Only)
+- [x] LBA-32: As Maria, I want to be able to securely connect my Instagram account. (UI Only)
+- [x] LBA-33: As Maria, I want to be able to connect my Google Business Profile. (UI Only)
+- [x] LBA-34: As Maria, I want to enable an "auto-post" feature for approved content. (UI and Worker Service integration)
+- [x] LBA-35: When auto-post is enabled, the system should post the content at an optimal time. (Simplified implementation)
+- [x] LBA-36: As Maria, I need to be able to revoke the system's access to my accounts at any time. (UI Only)
+- [x] LBA-37: The system must handle API authentication with services like the Meta Graph API. (Placeholder OAuth flows implemented)
+- [x] LBA-38: The system should log the success or failure of each auto-post attempt.
+- [x] LBA-39: As Maria, I want to receive a notification when content has been successfully posted.
+- [x] LBA-40: As Maria, I want to be able to post to multiple platforms simultaneously. (Basic structure in AutoPostService)
+

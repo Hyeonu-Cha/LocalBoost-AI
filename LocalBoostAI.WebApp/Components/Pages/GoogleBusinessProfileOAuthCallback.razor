@@ -1,0 +1,40 @@
+
+@page "/google-business-profile-oauth-callback"
+@using LocalBoostAI.WebApp.Models
+@using LocalBoostAI.WebApp.Services
+@using LocalBoostAI.WebApp.Services.SocialMedia
+@inject IBusinessProfileService ProfileService
+@inject IGoogleBusinessProfileService GoogleBusinessProfileService
+@inject NavigationManager NavigationManager
+
+<h3>Google Business Profile OAuth Callback</h3>
+
+<p>Processing Google Business Profile authorization...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var code = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var codeValue) ? codeValue.FirstOrDefault() : null;
+
+        if (!string.IsNullOrEmpty(code))
+        {
+            var accessToken = await GoogleBusinessProfileService.GetAccessToken(code);
+            var profile = await ProfileService.GetProfileAsync();
+            if (profile != null)
+            {
+                profile.IsGoogleBusinessProfileConnected = true;
+                profile.GoogleBusinessProfileAccessToken = accessToken;
+                await ProfileService.SaveProfileAsync(profile);
+            }
+            Console.WriteLine($"Google Business Profile Authorization Code: {code}");
+            Console.WriteLine($"Google Business Profile Access Token: {accessToken}");
+        }
+        else
+        {
+            Console.WriteLine("Google Business Profile authorization failed or no code received.");
+        }
+
+        NavigationManager.NavigateTo("/social-media-connections");
+    }
+}

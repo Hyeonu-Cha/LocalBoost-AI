@@ -1,0 +1,40 @@
+
+@page "/instagram-oauth-callback"
+@using LocalBoostAI.WebApp.Models
+@using LocalBoostAI.WebApp.Services
+@using LocalBoostAI.WebApp.Services.SocialMedia
+@inject IBusinessProfileService ProfileService
+@inject IInstagramService InstagramService
+@inject NavigationManager NavigationManager
+
+<h3>Instagram OAuth Callback</h3>
+
+<p>Processing Instagram authorization...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var code = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var codeValue) ? codeValue.FirstOrDefault() : null;
+
+        if (!string.IsNullOrEmpty(code))
+        {
+            var accessToken = await InstagramService.GetAccessToken(code);
+            var profile = await ProfileService.GetProfileAsync();
+            if (profile != null)
+            {
+                profile.IsInstagramConnected = true;
+                profile.InstagramAccessToken = accessToken;
+                await ProfileService.SaveProfileAsync(profile);
+            }
+            Console.WriteLine($"Instagram Authorization Code: {code}");
+            Console.WriteLine($"Instagram Access Token: {accessToken}");
+        }
+        else
+        {
+            Console.WriteLine("Instagram authorization failed or no code received.");
+        }
+
+        NavigationManager.NavigateTo("/social-media-connections");
+    }
+}

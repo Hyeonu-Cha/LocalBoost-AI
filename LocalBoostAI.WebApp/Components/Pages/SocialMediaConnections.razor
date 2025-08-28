@@ -1,0 +1,131 @@
+
+@page "/social-media-connections"
+@using LocalBoostAI.WebApp.Models
+@using LocalBoostAI.WebApp.Services
+@using LocalBoostAI.WebApp.Services.SocialMedia
+@inject IBusinessProfileService ProfileService
+@inject IFacebookService FacebookService
+@inject IInstagramService InstagramService
+@inject IGoogleBusinessProfileService GoogleBusinessProfileService
+@inject NavigationManager NavigationManager
+
+<h3>Social Media Connections</h3>
+
+@if (profile != null)
+{
+    <div class="card mb-3">
+        <div class="card-header">Facebook</div>
+        <div class="card-body">
+            <p>Status: @(profile.IsFacebookConnected ? "Connected" : "Disconnected")</p>
+            @if (profile.IsFacebookConnected)
+            {
+                <button class="btn btn-danger" @onclick="() => DisconnectFacebook()">Disconnect</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="() => ConnectFacebook()">Connect</button>
+            }
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Instagram</div>
+        <div class="card-body">
+            <p>Status: @(profile.IsInstagramConnected ? "Connected" : "Disconnected")</p>
+            @if (profile.IsInstagramConnected)
+            {
+                <button class="btn btn-danger" @onclick="() => DisconnectInstagram()">Disconnect</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="() => ConnectInstagram()">Connect</button>
+            }
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Google Business Profile</div>
+        <div class="card-body">
+            <p>Status: @(profile.IsGoogleBusinessProfileConnected ? "Connected" : "Disconnected")</p>
+            @if (profile.IsGoogleBusinessProfileConnected)
+            {
+                <button class="btn btn-danger" @onclick="() => DisconnectGoogleBusinessProfile()">Disconnect</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="() => ConnectGoogleBusinessProfile()">Connect</button>
+            }
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Auto-Post Settings</div>
+        <div class="card-body">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" @bind="profile.AutoPostEnabled" @onchange="ToggleAutoPost" />
+                <label class="form-check-label">Enable Auto-Posting for Approved Content</label>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Please set up your business profile first.</p>
+}
+
+@code {
+    private BusinessProfile profile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        profile = await ProfileService.GetProfileAsync();
+        if (profile == null)
+        {
+            profile = new BusinessProfile();
+        }
+    }
+
+    private async Task ConnectFacebook()
+    {
+        var authUrl = await FacebookService.GetAuthorizationUrl();
+        NavigationManager.NavigateTo(authUrl, forceLoad: true);
+    }
+
+    private async Task DisconnectFacebook()
+    {
+        profile.IsFacebookConnected = false;
+        profile.FacebookAccessToken = null;
+        await ProfileService.SaveProfileAsync(profile);
+    }
+
+    private async Task ConnectInstagram()
+    {
+        var authUrl = await InstagramService.GetAuthorizationUrl();
+        NavigationManager.NavigateTo(authUrl, forceLoad: true);
+    }
+
+    private async Task DisconnectInstagram()
+    {
+        profile.IsInstagramConnected = false;
+        profile.InstagramAccessToken = null;
+        await ProfileService.SaveProfileAsync(profile);
+    }
+
+    private async Task ConnectGoogleBusinessProfile()
+    {
+        var authUrl = await GoogleBusinessProfileService.GetAuthorizationUrl();
+        NavigationManager.NavigateTo(authUrl, forceLoad: true);
+    }
+
+    private async Task DisconnectGoogleBusinessProfile()
+    {
+        profile.IsGoogleBusinessProfileConnected = false;
+        profile.GoogleBusinessProfileAccessToken = null;
+        await ProfileService.SaveProfileAsync(profile);
+    }
+
+    private async Task ToggleAutoPost()
+    {
+        await ProfileService.SaveProfileAsync(profile);
+    }
+}

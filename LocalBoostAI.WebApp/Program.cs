@@ -8,6 +8,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddSingleton<IBusinessProfileService, InMemoryBusinessProfileService>();
 builder.Services.AddTransient<IContentGenerationService, WebAppContentGenerationService>();
+builder.Services.AddTransient<IFacebookService, FacebookService>();
+builder.Services.AddTransient<IInstagramService, InstagramService>();
+builder.Services.AddTransient<IGoogleBusinessProfileService, GoogleBusinessProfileService>();
 
 var app = builder.Build();
 

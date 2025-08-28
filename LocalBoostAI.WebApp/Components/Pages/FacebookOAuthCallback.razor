@@ -1,0 +1,40 @@
+
+@page "/facebook-oauth-callback"
+@using LocalBoostAI.WebApp.Models
+@using LocalBoostAI.WebApp.Services
+@using LocalBoostAI.WebApp.Services.SocialMedia
+@inject IBusinessProfileService ProfileService
+@inject IFacebookService FacebookService
+@inject NavigationManager NavigationManager
+
+<h3>Facebook OAuth Callback</h3>
+
+<p>Processing Facebook authorization...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var code = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var codeValue) ? codeValue.FirstOrDefault() : null;
+
+        if (!string.IsNullOrEmpty(code))
+        {
+            var accessToken = await FacebookService.GetAccessToken(code);
+            var profile = await ProfileService.GetProfileAsync();
+            if (profile != null)
+            {
+                profile.IsFacebookConnected = true;
+                profile.FacebookAccessToken = accessToken;
+                await ProfileService.SaveProfileAsync(profile);
+            }
+            Console.WriteLine($"Facebook Authorization Code: {code}");
+            Console.WriteLine($"Facebook Access Token: {accessToken}");
+        }
+        else
+        {
+            Console.WriteLine("Facebook authorization failed or no code received.");
+        }
+
+        NavigationManager.NavigateTo("/social-media-connections");
+    }
+}

@@ -16,6 +16,7 @@ builder.Services.AddHttpClient(); // Register HttpClient
 
 builder.Services.AddTransient<IContentGenerationService, ContentGenerationService>();
 builder.Services.AddTransient<IEmailService, SendGridEmailService>();
+builder.Services.AddTransient<IAutoPostService, AutoPostService>();
 
 var host = builder.Build();
 host.Run();
