@@ -1,5 +1,6 @@
 
-using Azure.AI.OpenAI;
+using Google.Cloud.AIPlatform.V1;
+using Google.Protobuf.WellKnownTypes;
 using LocalBoostAI.WorkerService.Models;
 using Microsoft.Azure.CognitiveServices.Search.WebSearch;
 using Microsoft.Azure.CognitiveServices.Search.WebSearch.Models;
@@ -14,16 +15,16 @@ namespace LocalBoostAI.WorkerService.Services;
 
 public class ContentGenerationService : IContentGenerationService
 {
-    private readonly OpenAIClient _openAIClient;
+    private readonly PredictionServiceClient _predictionServiceClient;
     private readonly WebSearchClient _webSearchClient;
     private readonly ILogger<ContentGenerationService> _logger;
     private readonly IConfiguration _configuration;
     private const string ProfileFilePath = "..\\..\\..\\profile.json";
     private const string ContentFilePath = "..\\..\\..\\content.json";
 
-    public ContentGenerationService(OpenAIClient openAIClient, WebSearchClient webSearchClient, ILogger<ContentGenerationService> logger, IConfiguration configuration)
+    public ContentGenerationService(PredictionServiceClient predictionServiceClient, WebSearchClient webSearchClient, ILogger<ContentGenerationService> logger, IConfiguration configuration)
     {
-        _openAIClient = openAIClient;
+        _predictionServiceClient = predictionServiceClient;
         _webSearchClient = webSearchClient;
         _logger = logger;
         _configuration = configuration;
@@ -44,10 +45,8 @@ public class ContentGenerationService : IContentGenerationService
 
         // 1. Brainstorm topics
         var topicsPrompt = $"Brainstorm a list of 5 blog post topics for a {profile.BusinessCategory} in {profile.TargetLocation}. The tone should be {profile.ToneOfVoice}. Each topic should be on a new line.";
-        var deploymentName = _configuration["AzureOpenAI:DeploymentName"];
-        var completionsOptions = new CompletionsOptions() { MaxTokens = 200 };
-        var response = await _openAIClient.GetCompletionsAsync(deploymentName, topicsPrompt);
-        var topics = response.Value.Choices.First().Text.Split('\n').Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+        var topicsResponse = await GenerateTextAsync(topicsPrompt);
+        var topics = topicsResponse.Split('\n').Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
         var selectedTopic = topics.First();
 
         // 2. Search for local news
@@ -56,15 +55,12 @@ public class ContentGenerationService : IContentGenerationService
 
         // 3. Generate blog post
         var blogPostPrompt = $"Write a 300-400 word blog post about '{selectedTopic}' for a {profile.BusinessCategory} called {profile.BusinessName} in {profile.TargetLocation}. Incorporate the following local news if relevant: {localNews}. The tone should be {profile.ToneOfVoice}.";
-        completionsOptions.MaxTokens = 500;
-        var blogPostResponse = await _openAIClient.GetCompletionsAsync(deploymentName, blogPostPrompt);
-        var blogPost = blogPostResponse.Value.Choices.First().Text;
+        var blogPost = await GenerateTextAsync(blogPostPrompt);
 
         // 4. Generate social media posts
         var socialMediaPrompt = $"Generate 3-4 social media posts for Facebook and Instagram based on the following blog post: {blogPost}. The tone should be {profile.ToneOfVoice}. Include relevant hashtags.";
-        completionsOptions.MaxTokens = 300;
-        var socialMediaResponse = await _openAIClient.GetCompletionsAsync(deploymentName, socialMediaPrompt);
-        var socialMediaPosts = socialMediaResponse.Value.Choices.First().Text.Split('\n').Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
+        var socialMediaPostsResponse = await GenerateTextAsync(socialMediaPrompt);
+        var socialMediaPosts = socialMediaPostsResponse.Split('\n').Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
 
         // 5. Save the generated content
         var generatedContent = new GeneratedContent
@@ -77,5 +73,15 @@ public class ContentGenerationService : IContentGenerationService
         await File.WriteAllTextAsync(ContentFilePath, contentJson);
 
         _logger.LogInformation("Content generation finished.");
+    }
+
+    private async Task<string> GenerateTextAsync(string prompt)
+    {
+        var endpoint = EndpointName.FromProjectLocationModel(_configuration["GoogleCloud:ProjectId"], _configuration["GoogleCloud:Location"], _configuration["GoogleCloud:ModelId"]);
+        var instances = new List<Value> { Value.ForString(prompt) };
+        var parameters = Value.ForStruct(new Struct());
+
+        var response = await _predictionServiceClient.PredictAsync(endpoint, instances, parameters);
+        return response.Predictions.First().StringValue;
     }
 }

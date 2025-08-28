@@ -43,9 +43,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Azure.AI.OpenAI": {
+            "Google.Cloud.AIPlatform.V1": {
               "target": "Package",
-              "version": "[2.1.0, )"
+              "version": "[3.45.0, )"
             },
             "Microsoft.Azure.CognitiveServices.Search.WebSearch": {
               "target": "Package",

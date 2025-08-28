@@ -6,8 +6,8 @@ This project is an AI-powered content generator for local businesses, built with
 ## Prerequisites
 
 *   [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-*   [Azure Subscription](https://azure.microsoft.com/free/)
-*   [Azure OpenAI Service](https://azure.microsoft.com/services/openai-service/)
+*   [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
+*   [Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
 *   [Bing Search API Key](https://www.microsoft.com/bing/apis/bing-web-search-api)
 
 ## Configuration
@@ -19,28 +19,36 @@ This project is an AI-powered content generator for local businesses, built with
     cd LocalBoost-AI
     ```
 
-2.  **Configure API Keys:**
+2.  **Configure Google Cloud:**
 
-    Open the `LocalBoostAI.WorkerService/appsettings.json` file and fill in your API keys and endpoints:
+    a.  **Authenticate with Google Cloud:**
 
-    ```json
-    {
-      "Logging": {
-        "LogLevel": {
-          "Default": "Information",
-          "Microsoft.Hosting.Lifetime": "Information"
+        ```bash
+        gcloud auth application-default login
+        ```
+
+    b.  **Set up your project:**
+
+        Open the `LocalBoostAI.WorkerService/appsettings.json` file and fill in your Google Cloud project details:
+
+        ```json
+        {
+          "Logging": {
+            "LogLevel": {
+              "Default": "Information",
+              "Microsoft.Hosting.Lifetime": "Information"
+            }
+          },
+          "GoogleCloud": {
+            "ProjectId": "YOUR_GOOGLE_CLOUD_PROJECT_ID",
+            "Location": "us-central1",
+            "ModelId": "gemini-1.5-flash-001"
+          },
+          "BingSearch": {
+            "ApiKey": "YOUR_BING_SEARCH_API_KEY"
+          }
         }
-      },
-      "AzureOpenAI": {
-        "Endpoint": "YOUR_AZURE_OPENAI_ENDPOINT",
-        "ApiKey": "YOUR_AZURE_OPENAI_API_KEY",
-        "DeploymentName": "YOUR_AZURE_OPENAI_DEPLOYMENT_NAME"
-      },
-      "BingSearch": {
-        "ApiKey": "YOUR_BING_SEARCH_API_KEY"
-      }
-    }
-    ```
+        ```
 
 ## Running the Application
 
