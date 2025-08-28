@@ -45,7 +45,7 @@ public class ContentGenerationService : IContentGenerationService
 
         // 1. Brainstorm topics
         var topicsPrompt = $"Brainstorm a list of 5 blog post topics for a {profile.BusinessCategory} in {profile.TargetLocation}. The tone should be {profile.ToneOfVoice}. Each topic should be on a new line.";
-        var topicsResponse = await GenerateTextAsync(topicsPrompt);
+        var topicsResponse = await _openAIClient.GetCompletionsAsync(deploymentName, topicsPrompt);
         var topics = topicsResponse.Split('\n').Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
         var selectedTopic = topics.First();
 

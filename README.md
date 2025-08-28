@@ -8,7 +8,7 @@ This project is an AI-powered content generator for local businesses, built with
 *   [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 *   [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 *   [Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
-*   [Bing Search API Key](https://www.microsoft.com/bing/apis/bing-web-search-api)
+*   [Google Custom Search JSON API Key](https://developers.google.com/custom-search/v1/overview)
 
 ## Configuration
 
@@ -44,8 +44,9 @@ This project is an AI-powered content generator for local businesses, built with
             "Location": "us-central1",
             "ModelId": "gemini-1.5-flash-001"
           },
-          "BingSearch": {
-            "ApiKey": "YOUR_BING_SEARCH_API_KEY"
+          "GoogleCustomSearch": {
+            "ApiKey": "YOUR_GOOGLE_CUSTOM_SEARCH_API_KEY",
+            "SearchEngineId": "YOUR_GOOGLE_CUSTOM_SEARCH_ENGINE_ID"
           }
         }
         ```
