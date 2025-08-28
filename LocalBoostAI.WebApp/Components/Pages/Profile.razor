@@ -1,0 +1,46 @@
+
+@page "/profile"
+@using LocalBoostAI.WebApp.Models
+@using LocalBoostAI.WebApp.Services
+@inject IBusinessProfileService ProfileService
+
+<h3>Business Profile</h3>
+
+@if (profile != null)
+{
+    <div>
+        <strong>Business Name:</strong> @profile.BusinessName
+    </div>
+    <div>
+        <strong>Address:</strong> @profile.Address
+    </div>
+    <div>
+        <strong>Phone Number:</strong> @profile.PhoneNumber
+    </div>
+    <div>
+        <strong>Business Description:</strong> @profile.BusinessDescription
+    </div>
+    <div>
+        <strong>Business Category:</strong> @profile.BusinessCategory
+    </div>
+    <div>
+        <strong>Target Location:</strong> @profile.TargetLocation
+    </div>
+    <div>
+        <strong>Tone of Voice:</strong> @profile.ToneOfVoice
+    </div>
+    <a href="/onboarding">Edit Profile</a>
+}
+else
+{
+    <p>No profile found. <a href="/onboarding">Create one now!</a></p>
+}
+
+@code {
+    private BusinessProfile profile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        profile = await ProfileService.GetProfileAsync();
+    }
+}

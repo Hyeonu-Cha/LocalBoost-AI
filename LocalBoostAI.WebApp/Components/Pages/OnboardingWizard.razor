@@ -1,0 +1,60 @@
+
+@page "/onboarding"
+@using LocalBoostAI.WebApp.Models
+@using LocalBoostAI.WebApp.Services
+@inject IBusinessProfileService ProfileService
+@inject NavigationManager NavigationManager
+
+<h3>Onboarding Wizard</h3>
+
+<EditForm Model="@profile" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Business Name:</label>
+        <InputText @bind-Value="profile.BusinessName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Address:</label>
+        <InputText @bind-Value="profile.Address" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Phone Number:</label>
+        <InputText @bind-Value="profile.PhoneNumber" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Business Description:</label>
+        <InputTextArea @bind-Value="profile.BusinessDescription" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Business Category:</label>
+        <InputText @bind-Value="profile.BusinessCategory" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Target Location:</label>
+        <InputText @bind-Value="profile.TargetLocation" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Tone of Voice:</label>
+        <InputText @bind-Value="profile.ToneOfVoice" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Profile</button>
+</EditForm>
+
+@code {
+    private BusinessProfile profile = new BusinessProfile();
+
+    private async Task HandleValidSubmit()
+    {
+        await ProfileService.SaveProfileAsync(profile);
+        NavigationManager.NavigateTo("/profile");
+    }
+}

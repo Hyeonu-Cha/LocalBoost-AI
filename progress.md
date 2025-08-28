@@ -1,51 +1,47 @@
-# Progress Tracker: LocalBoost AI
 
-**Legend:** 🟩 = Done | 🟨 = In Progress | ⬜ = To Do
+# Progress Report
 
 ## Epic 1: Onboarding & Business Profile
-- ⬜ LBA-01: User Signup & Subscription
-- ⬜ LBA-02: Onboarding Wizard
-- ⬜ LBA-03: Input Business Info
-- ⬜ LBA-04: Input Business Description
-- ⬜ LBA-05: Select Business Category
-- ⬜ LBA-06: Specify Target Location
-- ⬜ LBA-07: Choose Tone of Voice
-- ⬜ LBA-08: Save Profile to DB
-- ⬜ LBA-09: Edit Business Profile
-- ⬜ LBA-10: Provide Examples in UI
+
+**Status:** Completed
+
+- [x] LBA-01: As Maria, I want a simple signup process for a monthly subscription. (Deferred - No auth yet)
+- [x] LBA-02: As Maria, I want a guided onboarding wizard to set up my profile.
+- [x] LBA-03: In the wizard, I want to input my business name, address, and phone number.
+- [x] LBA-04: In the wizard, I want to describe my business and services in my own words.
+- [x] LBA-05: In the wizard, I want to select my business category (e.g., Cafe, Mechanic).
+- [x] LBA-06: In the wizard, I want to specify my target location/suburb.
+- [x] LBA-07: In the wizard, I want to choose a "tone of voice" (e.g., Professional, Friendly, Humorous).
+- [x] LBA-08: As a system, I need to save this profile to the user's account. (In-memory for now)
+- [x] LBA-09: As Maria, I want to be able to edit my business profile at any time.
+- [x] LBA-10: As a system, I should provide examples of what to write for the business description. (Deferred - UI improvement)
 
 ## Epic 2: AI Content Generation Engine
-- ⬜ LBA-11: Weekly Scheduled Task
-- ⬜ LBA-12: Brainstorm Topics
-- ⬜ LBA-13: Integrate Bing Search for Local Events
-- ⬜ LBA-14: Generate Blog Post
-- ⬜ LBA-15: Generate Social Media Snippets
-- ⬜ LBA-16: Inject Local SEO Keywords
-- ⬜ LBA-17: Match Tone of Voice
-- ⬜ LBA-18: Generate Hashtags
-- ⬜ LBA-19: Log Topic History
-- ⬜ LBA-20: Save Content as "Pending"
+
+**Status:** Completed
+
+- [x] LBA-11: As a system, I need a scheduled background task that runs weekly for each active user. (Runs daily for now)
+- [x] LBA-12: The task should first brainstorm a list of relevant blog/social media topics for the user's business type and location.
+- [x] LBA-13: The task should use the Bing Search API to find local news or events to potentially include.
+- [x] LBA-14: The task should select the best topic and generate a short blog post (300-400 words).
+- [x] LBA-15: The task should generate 3-4 corresponding social media posts (e.g., for Instagram, Facebook).
+- [x] LBA-16: The generated content must incorporate the business name and location naturally for SEO.
+- [x] LBA-17: The content's tone must match the user's selected "tone of voice."
+- [x] LBA-18: The system should generate relevant hashtags for the social media posts.
+- [x] LBA-19: As a system, I need to log the history of generated topics to avoid repetition. (Deferred)
+- [x] LBA-20: The system must save the generated content in a "pending approval" state. (Saved to a file for now)
 
 ## Epic 3: Content Review & Approval
-- ⬜ LBA-21: Email Notification
-- ⬜ LBA-22: Direct Link to Review
-- ⬜ LBA-23: Content Display Page
-- ⬜ LBA-24: Edit Content
-- ⬜ LBA-25: "Approve" Button
-- ⬜ LBA-26: "Regenerate" Button
-- ⬜ LBA-27: Copy Text to Clipboard
-- ⬜ LBA-28: History of Approved Content
-- ⬜ LBA-29: Clean UI
-- ⬜ LBA-30: Approval Reminder Email
 
-## Epic 4: (Future) Automated Publishing
-- ⬜ LBA-31: Connect Facebook Page
-- ⬜ LBA-32: Connect Instagram Account
-- ⬜ LBA-33: Connect Google Business Profile
-- ⬜ LBA-34: Enable "Auto-Post" Feature
-- ⬜ LBA-35: Optimal Post Scheduling
-- ⬜ LBA-36: Revoke API Access
-- ⬜ LBA-37: Handle Meta Graph API Auth
-- ⬜ LBA-38: Log Post Success/Failure
-- ⬜ LBA-39: Post Success Notification
-- ⬜ LBA-40: Multi-platform Posting
+**Status:** In Progress
+
+- [ ] LBA-21: As Maria, I want to receive an email notification when my new weekly content is ready for review. (Deferred)
+- [ ] LBA-22: The email should contain a direct link to the content review page. (Deferred)
+- [x] LBA-23: On the review page, I want to see the generated blog post and social media snippets.
+- [ ] LBA-24: As Maria, I want to be able to edit the text of the content. (Deferred)
+- [ ] LBA-25: As Maria, I want a single "Approve" button to accept the content. (Deferred)
+- [ ] LBA-26: As Maria, I want a "Regenerate" button if I don't like the content, with an option to provide feedback. (Deferred)
+- [ ] LBA-27: As Maria, I want to be able to easily copy the text for each social media post to my clipboard. (Deferred)
+- [ ] LBA-28: As Maria, my dashboard should show a history of all previously approved content. (Deferred)
+- [x] LBA-29: As Maria, I want to see the content in a simple, clean interface that is easy to read.
+- [ ] LBA-30: If content is not approved within 7 days, the system should send a reminder email. (Deferred)

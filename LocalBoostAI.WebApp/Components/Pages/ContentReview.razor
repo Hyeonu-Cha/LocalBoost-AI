@@ -1,0 +1,55 @@
+@page "/content-review"
+@using LocalBoostAI.WebApp.Models
+@using System.Text.Json
+@inject NavigationManager NavigationManager
+
+<h3>Content Review</h3>
+
+@if (generatedContent != null)
+{
+    <div class="card">
+        <div class="card-header">
+            Blog Post
+        </div>
+        <div class="card-body">
+            <p>@generatedContent.BlogPost</p>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            Social Media Posts
+        </div>
+        <div class="card-body">
+            <ul>
+                @foreach (var post in generatedContent.SocialMediaPosts)
+                {
+                    <li>@post</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-success">Approve</button>
+        <button class="btn btn-danger">Regenerate</button>
+    </div>
+}
+else
+{
+    <p>No content available for review.</p>
+}
+
+@code {
+    private GeneratedContent generatedContent;
+    private const string ContentFilePath = "..\\..\\..\\content.json";
+
+    protected override void OnInitialized()
+    {
+        if (File.Exists(ContentFilePath))
+        {
+            var json = File.ReadAllText(ContentFilePath);
+            generatedContent = JsonSerializer.Deserialize<GeneratedContent>(json);
+        }
+    }
+}
