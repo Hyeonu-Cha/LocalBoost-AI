@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddSingleton<IBusinessProfileService, InMemoryBusinessProfileService>();
+builder.Services.AddTransient<IContentGenerationService, WebAppContentGenerationService>();
 
 var app = builder.Build();
 

@@ -38,10 +38,10 @@
 - [ ] LBA-21: As Maria, I want to receive an email notification when my new weekly content is ready for review. (Deferred)
 - [ ] LBA-22: The email should contain a direct link to the content review page. (Deferred)
 - [x] LBA-23: On the review page, I want to see the generated blog post and social media snippets.
-- [ ] LBA-24: As Maria, I want to be able to edit the text of the content. (Deferred)
-- [ ] LBA-25: As Maria, I want a single "Approve" button to accept the content. (Deferred)
-- [ ] LBA-26: As Maria, I want a "Regenerate" button if I don't like the content, with an option to provide feedback. (Deferred)
-- [ ] LBA-27: As Maria, I want to be able to easily copy the text for each social media post to my clipboard. (Deferred)
+- [x] LBA-24: As Maria, I want to be able to edit the text of the content.
+- [x] LBA-25: As Maria, I want a single "Approve" button to accept the content. (UI Only)
+- [x] LBA-26: As Maria, I want a "Regenerate" button if I don't like the content, with an option to provide feedback. (UI Only)
+- [x] LBA-27: As Maria, I want to be able to easily copy the text for each social media post to my clipboard.
 - [ ] LBA-28: As Maria, my dashboard should show a history of all previously approved content. (Deferred)
 - [x] LBA-29: As Maria, I want to see the content in a simple, clean interface that is easy to read.
 - [ ] LBA-30: If content is not approved within 7 days, the system should send a reminder email. (Deferred)
